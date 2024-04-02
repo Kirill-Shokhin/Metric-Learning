@@ -19,7 +19,7 @@ class DINOv2(nn.Module):
         head = None
         if head_path is not None:
             head = HeadLayer()
-            head.load_state_dict(torch.load(head_path)['state_dict'])
+            head.load_state_dict(torch.load(head_path, map_location=device)['state_dict'])
             head.eval().to(device)
 
         return model, processor, head
