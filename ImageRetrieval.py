@@ -18,11 +18,11 @@ class ImageRetrieval:
         torch.save(self.embeddings, save)
         print(f"Features saves to {save}")
 
-    def load_embeddings(self, path, n_components=-1, use_head=False):
-        self.embeddings = torch.load(path)
+    def load_embeddings(self, path, n_components=-1, use_head=True):
+        self.embeddings = torch.load(path, map_location=self.model.device)
         if use_head:
             with torch.no_grad():
-                self.embeddings = self.model.head(self.embeddings.cuda()).cpu()
+                self.embeddings = self.model.head(self.embeddings)
 
         if n_components > 0:
             from sklearn.decomposition import PCA
